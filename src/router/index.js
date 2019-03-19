@@ -1,35 +1,37 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Login from '@/views/login/login'
+import Login from '@/views/login/login'
 import {lang} from '@/common/utils/utils'
 import {i18n} from '@/i18n'
 
 import Layout from '@/components/layout/layout'
-import Page1 from '@/views/page1/page1'
+import meetingList from '@/views/meeting/list'
 import Page2 from '@/views/page2/page2'
+import MeetingDetail from '@/views/meeting/meetingDetail'
+import InviteParticipant from '@/views/schedule/inviteParticipant'
 
 Vue.use(Router)
 i18n.locale = lang()
 
 const routerMap = [
-    // {
-    //     path: '/',
-    //     name: 'login',
-    //     component: Login
-    // },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
     {
         path: '/',
         component: Layout,
         name: '',
-        redirect: '/page1',
+        redirect: '/meeting/list',
         hidden: true,
-        meta: { menuId: 'page1' },
+        meta: { menuId: 'meetingList' },
         children: [
             {
-                path: '/page1',
-                component: Page1,
-                name: 'page1',
-                meta: { menuId: 'page1', authority: [] }
+                path: '/meeting/list',
+                component: meetingList,
+                name: 'meetingList',
+                meta: { menuId: 'meetingList', authority: [] }
             },
             {
                 path: '/page2',
@@ -38,6 +40,16 @@ const routerMap = [
                 meta: { menuId: 'page2', authority: [] }
             }
         ]
+    },
+    {
+        path: '/meeting/detail',
+        name: 'meetingDetail',
+        component: MeetingDetail
+    },
+    {
+        path: '/meeting/invite',
+        name: 'inviteParticipant',
+        component: InviteParticipant
     }
 ]
 
@@ -51,15 +63,15 @@ router.beforeEach((to, from, next) => {
     if (pathArr.indexOf(to.path) >= 0) {
         next()
     } else {
-        if (localStorage.getItem('name')) {
+        if (localStorage.getItem('token_account')) {
             if (to.path === '/login') {
-                next({path: '/statistic'}) // 已有tab登录，直接跳转首页
+                next({path: '/meeting/list'}) // 已有tab登录，直接跳转首页
             } else {
                 // 判断当前用户是否已拉取完routers信息
                 next()
             }
         } else {
-            next()
+            next('/login')
         }
     }
 })

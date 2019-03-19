@@ -3,18 +3,15 @@
 */
 <template>
     <!-- 侧滑导航根容器 -->
-    <div class="mui-off-canvas-wrap mui-draggable main-container">
+    <div class="mui-off-canvas-wrap mui-draggable main-container" id="offCanvasWrapper">
         <!-- 菜单容器 -->
-        <aside class="mui-off-canvas-left">
+        <aside id="offCanvasSide" class="mui-off-canvas-left">
             <div class="mui-scroll-wrapper">
                 <div class="mui-scroll">
                     <!-- 菜单具体展示内容 -->
                     <ul class="mui-table-view menus">
-                        <li class="mui-table-view-cell" val-data="/page1">
-                            <a class="mui-navigate-right">MENU1</a>
-                        </li>
-                        <li class="mui-table-view-cell" val-data="/page2">
-                            <a class="mui-navigate-right">MENU2</a>
+                        <li class="mui-table-view-cell" val-data="/login">
+                            <a class="mui-navigate-right">退出</a>
                         </li>
                     </ul>
                 </div>
@@ -42,9 +39,14 @@
             }
         },
         mounted () {
+            // mui.init()
+            mui('#offCanvasWrapper').offCanvas().refresh()
             let _this = this
             mui('.menus').on('tap', 'li', function (e) {
                 let path = this.getAttribute('val-data')
+                if (path === '/login') {
+                    localStorage.removeItem('token_account')
+                }
                 _this.toMenu(path)
             })
         }

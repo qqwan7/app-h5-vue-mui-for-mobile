@@ -5,7 +5,7 @@
     <div>
         <!-- 主页面标题 -->
         <header class="mui-bar mui-bar-nav" ref="header">
-            <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+            <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
             <h1 class="mui-title">Page2</h1>
         </header>
         <bar-tab></bar-tab>
@@ -41,7 +41,9 @@
             flushCallBack () {
                 this.list = this.list + 1
                 setTimeout(() => {
-                    mui('#refreshContainer').pullRefresh().endPulldownToRefresh()
+                    if (mui('#refreshContainer').pullRefresh() !== undefined) {
+                        mui('#refreshContainer').pullRefresh().endPulldownToRefresh()
+                    }
                 }, 3000)
             },
             toTop () {
@@ -61,6 +63,13 @@
             }
         },
         mounted () {
+            // 解决路由切换后，mui无效的问题
+            for (var i = mui.hooks.inits.length - 1, item; i >= 0; i--) {
+                item = mui.hooks.inits[i]
+                if (item.name === 'pullrefresh') {
+                    item.repeat = true
+                }
+            }
             mui.init({
                 pullRefresh: {
                     container: '#refreshContainer', // 下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等

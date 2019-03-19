@@ -3,11 +3,11 @@
 */
 <template>
     <nav class="mui-bar mui-bar-tab">
-        <a class="mui-tab-item" :class="{'mui-active': activeKey==='/page1'}" href="#page1" val-data="/page1">
+        <a class="mui-tab-item touch-action" :class="{'mui-active': activeKey==='/meeting/list'}" href="#meetingList" val-data="/meeting/list">
             <span class="mui-icon mui-icon-home"></span>
-            <span class="mui-tab-label">page1</span>
+            <span class="mui-tab-label">会议</span>
         </a>
-        <a class="mui-tab-item" :class="{'mui-active': activeKey==='/page2'}" href="#page2" val-data="/page2">
+        <a class="mui-tab-item touch-action" :class="{'mui-active': activeKey==='/page2'}" href="#page2" val-data="/page2">
             <span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
             <span class="mui-tab-label">page2</span>
         </a>
